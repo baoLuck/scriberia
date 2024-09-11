@@ -6,95 +6,131 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    height: 100vh;
+    overflow: hidden;
     flex-direction: column;
     box-sizing: border-box;
 /*    font-family: "Palatino Sans Informal LT W04Md";
     font-family: "Comic Sans MS";*/
 }
 
-.container {
-    overflow: hidden;
-    flex: 1;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
+.icon {
+    font-size: 48px; /* Размер иконки */
+    color: black; /* Цвет иконки */
 }
 
-.info-bar {
-    background: linear-gradient(135deg, #8e44ad, #4f62d0);
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Центрирование по вертикали */
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    width: 100%;
+header, footer {
     padding: 10px;
-    color: white;
-    border-radius: 8px;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    align-items: center;
+    position: fixed;
+    width: 100%;
     z-index: 1000;
 }
 
-.info-bar a {
-    display: flex;
-    align-items: center; /* Центрирование текста и изображения по вертикали */
-    margin-left: 10px;
+header {
+    top: 0;
+    left: 0;
 }
 
-.info-bar img {
+header img {
     vertical-align: middle;
+    horizontal-align: top;
     margin-left: 5px;
     width: 20px;
     height: 20px;
 }
 
-.adContainer {
-    margin-top: 70px;
-    margin-bottom: 50px;
-    overflow-x: hidden;
-    overflow-y: auto;
+footer {
+    bottom: 0px;
+    left: 0;
+    margin-bottom: 20px;
+}
+
+.info-bar {
+    background-color: #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 95%;
     padding: 10px;
-    overflow-y: scroll;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.info-bar-desc {
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px;
+    justify-content: center; /* Центрирование по вертикали */
+}
+
+.info-bar a {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    margin-bottom: 5px; /* Отступ между элементами */
+    color: white;
+    text-decoration: none;
+}
+
+.info-bar img {
+    margin-left: 5px;
+    width: 18px;
+    height: 18px;
+}
+
+.adContainer {
+    margin-top: 60px;
+    margin-bottom: 50px;
+    padding: 10px;
+    overflow: scroll;
 }
 
 .ad-card {
-    background: linear-gradient(135deg, #4f62d0, #8e44ad);
-    padding: 20px;
+    background: linear-gradient(to right, #1a1a1a, #333333, #666666, #999999, #b3b3b3, #d9d9d9);
+
     margin-bottom: 20px;
     border-radius: 12px;
     color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
+    padding-bottom: 25px;
 }
 
 .ad-card h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
+    padding-left: 20px;
+    padding-top: 15px;
 }
 
 .ad-card p {
     font-size: 1em;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-left: 20px;
 }
 
 .ad-card .btn {
-    background-color: #ffffff;
-    color: #4f62d0;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #ffffff;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
+    margin-bottom: 15px;
+    margin-left: 15px;
 }
 
-.ad-card .btn:hover {
+/*.ad-card .btn:hover {
     background-color: #6359ff;
-    color: #ffffff;
-}
+    color: #999999;
+}*/
 
 .info-box {
     position: absolute;
@@ -104,20 +140,24 @@ body {
     padding: 10px;
     border-radius: 8px;
     color: #ffffff;
-    font-size: 0.9em;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    align-items: center; /* Вертикальное выравнивание содержимого */
+    justify-content: center; /* Центрирование содержимого по горизонтали */
 }
 
 .info-box img {
-    vertical-align: middle;
-    margin-left: 5px;
-    width: 20px;
-    height: 20px;
+    margin-left: 5px; /* Отступ между текстом и изображением */
+    width: 18px;
+    height: 18px;
+    vertical-align: middle; /* Убедитесь, что изображение выравнивается по средине строки */
 }
 
 .info-line {
-    margin-bottom: 5px;
-    text-align: center;
+    display: flex; /* Обеспечивает правильное выравнивание текста */
+    align-items: center; /* Выравнивание текста по центру */
 }
 
 .bottom-nav {
@@ -125,7 +165,6 @@ body {
     position: fixed;
     bottom: 0;
     left: 0;
-    overflow: hidden;
     width: 100%;
     background: rgba(0, 0, 0, 1);
     color: #fff;
@@ -133,12 +172,15 @@ body {
     display: flex;
     justify-content: center;
     border-radius: 10px;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    margin-bottom: 20px;
 }
 
 .bottom-nav a {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 50%;
     text-align: center;
     padding: 10px 0;
@@ -146,13 +188,20 @@ body {
     color: rgba(255, 255, 255, 0.8);
     transition: background-color 0.3s, color 0.3s;
     border-radius: 10px;
-    position: sticky;
-    bottom: 0px;
 }
 
 .bottom-nav a.active {
     color: #fff;
     background-color: rgba(255, 255, 255, 0.3);
+}
+
+.bottom-nav i {
+    font-size: 24px; /* Размер иконки */
+    margin-bottom: 5px; /* Отступ между иконкой и текстом */
+}
+
+.bottom-nav span {
+    font-size: 14px; /* Размер текста */
 }
 
 .wallet-container {
@@ -170,18 +219,18 @@ body {
 .leaderboardContainer {
     margin-top: 70px;
     margin-bottom: 100px;
-    overflow-x: hidden;
-    overflow-y: auto;
     flex: 1;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    overflow: scroll;
+    padding: 10px;
 }
 
 .user-card {
     margin-top: 0;
     margin-bottom: 5px;
-    background: linear-gradient(135deg, #4f62d0, #8e44ad);
+    background: linear-gradient(to right, #1a1a1a, #333333, #666666, #999999, #b3b3b3, #d9d9d9);
     padding: 10px;
     border-radius: 12px;
     color: white;
@@ -208,7 +257,7 @@ body {
     position: fixed;
     bottom: 0;
     left: 0;
-    margin-bottom: 50px;
+    margin-bottom: 70px;
     border-radius: 12px;
     background-color: rgba(0, 0, 15, 0.9);
     width: 100%;

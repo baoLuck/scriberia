@@ -8,13 +8,14 @@
 <!--  <link href="https://db.onlinewebfonts.com/c/7cc6719bd5f0310be3150ba33418e72e?family=Comic+Sans+MS" rel="stylesheet">-->
 <!--  <link href="https://db.onlinewebfonts.com/c/305b37d49e1c22f4a304a96fc904e1ef?family=Palatino+Sans+Informal+LT+W04Md" rel="stylesheet">-->
   <link href="{% static 'server/css/styles.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 </head>
 <body>
-<div class="container">
-  <div class="info-bar" id="info-bar">
-    <div style="display: flex; flex-direction: column; margin-left: 15px;">
+<header>
+  <div class="info-bar">
+    <div class="info-bar-desc">
       <a id="ton_balance">{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
       <a>{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
     </div>
@@ -22,19 +23,30 @@
       <button id="connectWallet" class="wallet-button"></button>
     </div>
   </div>
+</header>
+
   {% block content %}{% endblock %}
 
   <div class="coming-soon" id="comingSoon">
     <a>Coming soon</a>
   </div>
-</div>
 
-<!-- Bottom navigation bar -->
-<div class="bottom-nav">
-  <a href="#" id="offersTab" class="active">Offers</a>
-  <a href="#" id="leadTab">Leaderboard</a>
-  <a href="#" id="friendsTab">Friends</a>
-</div>
+<footer>
+  <div class="bottom-nav">
+    <a href="#" id="offersTab" class="active">
+      <i class="material-icons">format_list_bulleted</i>
+      <span>Offers</span>
+    </a>
+    <a href="#" id="leadTab">
+      <i class="material-icons">leaderboard</i>
+      <span>Leaderboard</span>
+    </a>
+    <a href="#" id="friendsTab">
+      <i class="material-icons">groups</i>
+      <span>Friends</span>
+    </a>
+  </div>
+</footer>
 
 <script src="{% static 'server/js/main.js' %}">
   init();

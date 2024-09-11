@@ -4,347 +4,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Advertisement List</title>
-<!--  <link href="https://db.onlinewebfonts.com/c/305b37d49e1c22f4a304a96fc904e1ef?family=Palatino+Sans+Informal+LT+W04Md" rel="stylesheet">-->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <title>Telegram Mini App</title>
   <style>
-
     body {
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
         margin: 0;
         padding: 0;
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-        font-family: "Palatino Sans Informal LT W04Md";
-    }
-
-    .container {
-        overflow: hidden;
-        flex: 1;
-        box-sizing: border-box;
+        height: 100vh;
+        overflow: hidden; /* Prevent scrolling */
         display: flex;
         flex-direction: column;
     }
 
-    .info-bar {
+    header, footer {
         background: linear-gradient(135deg, #8e44ad, #4f62d0);
-        display: flex;
-        justify-content: space-between;
-        align-items: center; /* Центрирование по вертикали */
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        width: 100%;
         padding: 10px;
-        color: white;
-        border-radius: 8px;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        box-sizing: border-box;
+        align-items: center;
+        position: fixed;
+        width: 100%;
         z-index: 1000;
     }
 
-    .info-bar a {
-        display: flex;
-        align-items: center; /* Центрирование текста и изображения по вертикали */
-        margin-left: 10px;
+    header {
+        top: 0;
+        left: 0;
     }
 
-    .info-bar img {
+    header img {
         vertical-align: middle;
         margin-left: 5px;
         width: 20px;
         height: 20px;
     }
 
-    .adContainer {
-        margin-top: 70px;
-        margin-bottom: 50px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        padding: 10px;
-    }
-
-    .ad-card {
-        background: linear-gradient(135deg, #4f62d0, #8e44ad);
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 12px;
-        color: white;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
-
-    .ad-card h2 {
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
-
-    .ad-card p {
-        font-size: 1em;
-        margin-bottom: 20px;
-    }
-
-    .ad-card .btn {
-        background-color: #ffffff;
-        color: #4f62d0;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .ad-card .btn:hover {
-        background-color: #6359ff;
-        color: #ffffff;
-    }
-
-    .info-box {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
-        padding: 10px;
-        border-radius: 8px;
-        color: #ffffff;
-        font-size: 0.9em;
-        text-align: center;
-    }
-
-    .info-box img {
-        vertical-align: middle;
-        margin-left: 5px;
-        width: 20px;
-        height: 20px;
-    }
-
-    .info-line {
-        margin-bottom: 5px;
-        text-align: center;
-    }
-
-    .bottom-nav {
-        height: 50px;
-        position: fixed;
+    footer {
         bottom: 0;
         left: 0;
-        overflow: hidden;
-        width: 100%;
-        background: rgba(0, 0, 0, 1);
-        color: #fff;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
     }
 
-    .bottom-nav a {
-        display: inline-block;
-        width: 50%;
-        text-align: center;
-        padding: 10px 0;
-        text-decoration: none;
-        color: rgba(255, 255, 255, 0.8);
-        transition: background-color 0.3s, color 0.3s;
-        border-radius: 10px;
-        position: sticky;
-        bottom: 0px;
-    }
-
-    .bottom-nav a.active {
-        color: #fff;
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .bottom-nav a:hover {
-        background-color: rgba(255, 255, 255, 0.3);
-        color: #fff;
-    }
-
-    .wallet-container {
-        display: flex;
-        align-items: center; /* Центрирование содержимого по вертикали */
-        background-color: rgba(0, 0, 0, 0);
-    }
-
-    .wallet-button {
-        background-color: rgba(0, 0, 0, 0);
-        border: none;
-        margin-left: 5px;
-    }
-
-    .coming-soon {
-        color: white;
-        margin-top: 170px;
-        width: 100%;
-        display: flex;               /* Используем Flexbox для центрирования */
-        justify-content: center;     /* Центрирование по горизонтали */
-        align-items: center;
-    }
-
-    .coming-soon a {
-        font-size: 1.5em;
-        text-align: center;
-        color: gray;
-    }
-
-    .hidden {
-        display: none;
+    .content {
+        margin-top: 50px; /* Adjust to header height */
+        margin-bottom: 40px; /* Adjust to footer height */
+        padding: 10px;
+        box-sizing: border-box;
+        color: red;
+        overflow: scroll;
     }
   </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="info-bar" id="info-bar">
-    <div style="display: flex; flex-direction: column; margin-left: 15px;">
-      <a id="ton_balance">{{ton_balance}} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
-      <a>{{ton_balance}} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
-    </div>
-    <div id="walletContainer" class="wallet-container">
-      <button id="connectWallet" class="wallet-button"></button>
-    </div>
+<header>
+  <div style="display: flex; flex-direction: column; margin-left: 15px;">
+    <a id="ton_balance">{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
+    <a>{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
   </div>
+</header>
+<div class="content">
+  <p>Content goes here...</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
+  <p>Add more content to see the scroll effect.</p>
 
-  <div class="adContainer" id="adContainer">
-    {% for offer in offers %}
-    <div class="ad-card" id="adCard{{forloop.counter}}">
-      <div class="info-box">
-        <div class="info-line">{{ offer.reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
-      </div>
-      <h2>{{ offer.name }}</h2>
-      <p>{{ offer.description }}</p>
-      <a href="{{offer.link}}" class="btn" id="subscribeButton{{forloop.counter}}">Subscribe</a>
-    </div>
-
-    <script>
-      document.getElementById('subscribeButton{{forloop.counter}}').addEventListener('click', function() {
-          Telegram.WebApp.expand();
-          var link = document.getElementById('subscribeButton{{forloop.counter}}');
-          if (link.innerHTML === 'Subscribe') {
-              link.innerHTML = 'Verify';
-          } else if (link.innerHTML === 'Verify') {
-              fetch('/check_subscription/', {
-                  method: 'POST',
-                  headers: {
-                      'X-CSRFToken': '{% csrf_token %}',
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                      pk: '{{ offer.pk }}',
-                      tg_id: '{{ tg_id }}'
-                  })
-              })
-              .then(response => response.json())
-              .then(data => {
-                  if (data.status === 'success' && data.is_subscribed) {
-                      var div = document.getElementById('adCard{{forloop.counter}}');
-                      div.remove();
-                      var devEl = document.getElementById('ton_balance');
-                      devEl.innerHTML = data.balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
-                  } else {
-                      link.innerHTML = 'Subscribe';
-                      link.href = '{{ offer.link }}';
-                  }
-              });
-              link.removeAttribute('href');
-          }
-      });
-    </script>
-    {% endfor %}
-  </div>
-  <div class="coming-soon" id="comingSoon">
-    <a>Coming soon</a>
-  </div>
 </div>
-
-<!-- Bottom navigation bar -->
-<div class="bottom-nav">
-  <a href="#" id="offersTab" class="active">Offers</a>
-  <a href="#" id="leadTab">Leaderboard</a>
-  <a href="#" id="friendsTab">Friends</a>
-</div>
-
-<script>
-  function sendLogToServer(message) {
-    fetch(`/log_js/?message=${encodeURIComponent(message)}`)
-        .then(response => response.json())
-        .then(data => console.log('Log sent successfully:', data))
-        .catch(error => console.error('Error sending log:', error));
-  }
-
-  Telegram.WebApp.expand();
-  document.addEventListener('DOMContentLoaded', function() {
-    showOffers();
-
-    document.getElementById('offersTab').addEventListener('click', function(event) {
-        event.preventDefault();
-        showOffers();
-    });
-
-    document.getElementById('leadTab').addEventListener('click', function(event) {
-        event.preventDefault();
-        showLeaderboard();
-    });
-
-    document.getElementById('friendsTab').addEventListener('click', function(event) {
-        event.preventDefault();
-        showFriends();
-    });
-  });
-
-  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: 'https://purple-grapes-wink.loca.lt/static/tonconnect-manifest.json',
-        buttonRootId: 'connectWallet'
-    });
-
-  const unsubscribe = tonConnectUI.onStatusChange(
-      walletAndwalletInfo => {
-          const currentWallet = tonConnectUI.wallet;
-          const currentWalletInfo = tonConnectUI.walletInfo;
-          const currentAccount = tonConnectUI.account;
-          const currentIsConnectedStatus = tonConnectUI.connected;
-
-
-<!--          sendLogToServer(JSON.stringify({'CurrentWallet': currentWallet}));-->
-<!--          sendLogToServer(JSON.stringify({'CurrentWalletInfo': currentWalletInfo}));-->
-<!--          sendLogToServer(JSON.stringify({'CurrentAccount': currentAccount}));-->
-<!--          sendLogToServer(JSON.stringify({'CurrentIsConnectedStatus': currentIsConnectedStatus}));-->
-      }
-  );
-
-  function showOffers() {
-    document.getElementById('offersTab').classList.add('active');
-    document.getElementById('leadTab').classList.remove('active');
-    document.getElementById('friendsTab').classList.remove('active');
-    document.getElementById('adContainer').classList.remove('hidden');
-    document.getElementById('comingSoon').classList.add('hidden');
-  }
-
-  function showLeaderboard() {
-    document.getElementById('leadTab').classList.add('active');
-    document.getElementById('offersTab').classList.remove('active');
-    document.getElementById('friendsTab').classList.remove('active');
-    document.getElementById('adContainer').classList.add('hidden');
-    document.getElementById('comingSoon').classList.remove('hidden');
-  }
-
-  function showFriends() {
-    document.getElementById('friendsTab').classList.add('active');
-    document.getElementById('offersTab').classList.remove('active');
-    document.getElementById('leadTab').classList.remove('active');
-    document.getElementById('adContainer').classList.add('hidden');
-    document.getElementById('comingSoon').classList.remove('hidden');
-  }
-</script>
-
+<footer>
+  <div class="bottom-nav">
+    <a href="#" id="offersTab" class="active">Offers</a>
+    <a href="#" id="leadTab">Leaderboard</a>
+    <a href="#" id="friendsTab">Friends</a>
+  </div>
+</footer>
 </body>
 </html>

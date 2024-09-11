@@ -54,8 +54,8 @@
 <div class="leaderboardContainer" id="leaderboardContainer">
   {% for user in leaderboard_users %}
   <div class="user-card">
-    <h2>{{ user.tg_username }}</h2>
-    <p>{{ user.ton_balance }}</p>
+    <h2>{{forloop.counter}}. {{ user.tg_username }}</h2>
+    <p style="color: black; font-weight: bold;">{{ user.ton_balance }}</p>
   </div>
   {% endfor %}
 </div>
