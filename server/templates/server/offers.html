@@ -1,0 +1,68 @@
+{% extends 'server/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="adContainer" id="adContainer">
+  {% for offer in offers %}
+  <div class="ad-card" id="adCard{{ forloop.counter }}">
+    <div class="info-box">
+      <div class="info-line">{{ offer.reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
+    </div>
+    <h2>{{ offer.name }}</h2>
+    <p>{{ offer.description }}</p>
+    <a href="{{ offer.link }}" class="btn" id="subscribeButton{{ forloop.counter }}">Subscribe</a>
+  </div>
+
+  <script>
+    document.getElementById('subscribeButton{{forloop.counter}}').addEventListener('click', function() {
+        Telegram.WebApp.expand();
+        var link = document.getElementById('subscribeButton{{forloop.counter}}');
+        if (link.innerHTML === 'Subscribe') {
+            link.innerHTML = 'Verify';
+        } else if (link.innerHTML === 'Verify') {
+            fetch('/check_subscription/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{% csrf_token %}',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    pk: '{{ offer.pk }}',
+                    tg_id: '{{ current_user.tg_id }}'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success' && data.is_subscribed) {
+                    var div = document.getElementById('adCard{{forloop.counter}}');
+                    div.remove();
+                    var devEl = document.getElementById('ton_balance');
+                    devEl.innerHTML = data.balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
+                } else {
+                    link.innerHTML = 'Subscribe';
+                    link.href = '{{ offer.link }}';
+                }
+            });
+            link.removeAttribute('href');
+        }
+    });
+  </script>
+  {% endfor %}
+</div>
+
+<div class="leaderboardContainer" id="leaderboardContainer">
+  {% for user in leaderboard_users %}
+  <div class="user-card">
+    <h2>{{ user.tg_username }}</h2>
+    <p>{{ user.ton_balance }}</p>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="fixed-user-card" id="currentUser">
+  <h2>{{ current_user.tg_username }}</h2>
+  <p>{{ current_user.ton_balance }}</p>
+</div>
+
+{% endblock content %}

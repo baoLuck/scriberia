@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advertisement List</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
+
+    .info-bar {
+        background: linear-gradient(135deg, #4f62d0, #8e44ad);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        color: white;
+        text-align: right;
+        border-radius: 8px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000; /* Гарантирует, что info-bar всегда будет сверху */
+        box-sizing: border-box; /* Чтобы padding не увеличивал ширину контейнера */
+    }
+
+    .container {
+        flex: 1;
+        padding-top: 60px; /* Высота .info-bar */
+        padding-bottom: 50px; /* Высота .bottom-nav */
+        box-sizing: border-box; /* Чтобы padding не увеличивал ширину контейнера */
+    }
+
+    .info-bar img {
+        vertical-align: middle;
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .ad-card {
+        background: linear-gradient(135deg, #4f62d0, #8e44ad);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .ad-card h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .ad-card p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .ad-card .btn {
+        background-color: #ffffff;
+        color: #4f62d0;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .ad-card .btn:hover {
+        background-color: #6359ff;
+        color: #ffffff;
+    }
+
+    .info-box {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 0.9em;
+        text-align: right;
+    }
+
+    .info-box img {
+        vertical-align: middle;
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .info-line {
+        margin-bottom: 5px;
+    }
+
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8); /* Полупрозрачный серый фон */
+        color: #fff;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000; /* Гарантирует, что .bottom-nav всегда будет сверху */
+    }
+
+    .bottom-nav a {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        padding: 10px 0;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.8);
+        transition: background-color 0.3s, color 0.3s;
+        border-radius: 10px;
+    }
+
+    .bottom-nav a.active {
+        color: #fff;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .bottom-nav a:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        color: #fff;
+    }
+
+    .wallet-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        flex-direction: column;
+    }
+
+    .wallet-button {
+        padding: 10px 20px;
+        background-color: #4f62d0;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .wallet-button:hover {
+        background-color: #8e44ad;
+    }
+
+    .hidden {
+        display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="info-bar" id="info-bar">
+  Balance: {{ton_balance}} <img src="https://cdn3d.iconscout.com/3d/premium/thumb/toncoin-ton-coin-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-cryptocurrency-pack-icons-7138701.png?f=webp" alt="TON Icon">
+</div>
+
+<div class="container">
+  <div id="adContainer">
+    {% for offer in offers %}
+    <div class="ad-card" id="adCard{{forloop.counter}}">
+      <div class="info-box">
+        <div class="info-line">{{ offer.reward }} <img src="https://cdn3d.iconscout.com/3d/premium/thumb/toncoin-ton-coin-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-cryptocurrency-pack-icons-7138701.png?f=webp" alt="TON Icon"></div>
+      </div>
+      <h2>{{ offer.name }}</h2>
+      <p>{{ offer.description }}</p>
+      <a href="{{offer.link}}" class="btn" id="subscribeButton{{forloop.counter}}">Subscribe</a>
+    </div>
+
+    <script>
+      document.getElementById('subscribeButton{{forloop.counter}}').addEventListener('click', function() {
+          Telegram.WebApp.expand();
+          var link = document.getElementById('subscribeButton{{forloop.counter}}');
+          if (link.innerHTML === 'Subscribe') {
+              link.innerHTML = 'Verify';
+          } else if (link.innerHTML === 'Verify') {
+              fetch('/check_subscription/', {
+                  method: 'POST',
+                  headers: {
+                      'X-CSRFToken': '{% csrf_token %}',
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      pk: '{{ offer.pk }}',
+                      tg_id: '{{ tg_id }}'
+                  })
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.status === 'success' && data.is_subscribed) {
+                      var div = document.getElementById('adCard{{forloop.counter}}');
+                      div.remove();
+                      var devEl = document.querySelector('.info-bar');
+                      devEl.innerHTML = 'Balance: ' + data.balance + ' <img src="https://cdn3d.iconscout.com/3d/premium/thumb/toncoin-ton-coin-3d-icon-download-in-png-blend-fbx-gltf-file-formats--bitcoin-logo-cryptocurrency-pack-icons-7138701.png?f=webp" alt="TON Icon">';
+                  } else {
+                      link.innerHTML = 'Subscribe';
+                      link.href = '{{ offer.link }}';
+                  }
+              });
+              link.removeAttribute('href');
+          }
+      });
+    </script>
+    {% endfor %}
+  </div>
+
+  <div id="walletContainer" class="wallet-container hidden">
+    <button class="wallet-button" id="connectWallet">Connect Wallet</button>
+  </div>
+</div>
+
+<!-- Bottom navigation bar -->
+<div class="bottom-nav">
+  <a href="#" id="offersTab" class="active">Offers</a>
+  <a href="#" id="walletTab">Wallet</a>
+</div>
+
+<script>
+  Telegram.WebApp.expand();
+  document.addEventListener('DOMContentLoaded', function() {
+    // Начальная инициализация видимости
+    showOffers();
+
+    document.getElementById('offersTab').addEventListener('click', function(event) {
+        event.preventDefault();
+        showOffers();
+    });
+
+    document.getElementById('walletTab').addEventListener('click', function(event) {
+        event.preventDefault();
+        showWallet();
+    });
+
+    document.getElementById('connectWallet').addEventListener('click', function() {
+        alert('Connecting to TON Wallet...');
+        // Здесь добавьте функционал для подключения TON кошелька
+    });
+  });
+
+  function showOffers() {
+    document.getElementById('offersTab').classList.add('active');
+    document.getElementById('walletTab').classList.remove('active');
+    document.getElementById('adContainer').classList.remove('hidden'); // Показываем предложения
+    document.getElementById('walletContainer').classList.add('hidden'); // Скрываем содержимое кошелька
+  }
+
+  function showWallet() {
+    document.getElementById('walletTab').classList.add('active');
+    document.getElementById('offersTab').classList.remove('active');
+    document.getElementById('adContainer').classList.add('hidden'); // Скрываем предложения
+    document.getElementById('walletContainer').classList.remove('hidden'); // Показываем содержимое кошелька
+  }
+</script>
+
+</body>
+</html>

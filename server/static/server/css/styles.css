@@ -1,0 +1,254 @@
+body {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+/*    font-family: "Palatino Sans Informal LT W04Md";
+    font-family: "Comic Sans MS";*/
+}
+
+.container {
+    overflow: hidden;
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.info-bar {
+    background: linear-gradient(135deg, #8e44ad, #4f62d0);
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Центрирование по вертикали */
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    z-index: 1000;
+}
+
+.info-bar a {
+    display: flex;
+    align-items: center; /* Центрирование текста и изображения по вертикали */
+    margin-left: 10px;
+}
+
+.info-bar img {
+    vertical-align: middle;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.adContainer {
+    margin-top: 70px;
+    margin-bottom: 50px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 10px;
+    overflow-y: scroll;
+}
+
+.ad-card {
+    background: linear-gradient(135deg, #4f62d0, #8e44ad);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.ad-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.ad-card p {
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+.ad-card .btn {
+    background-color: #ffffff;
+    color: #4f62d0;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.ad-card .btn:hover {
+    background-color: #6359ff;
+    color: #ffffff;
+}
+
+.info-box {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.info-box img {
+    vertical-align: middle;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+}
+
+.info-line {
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.bottom-nav {
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    background: rgba(0, 0, 0, 1);
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.bottom-nav a {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 10px;
+    position: sticky;
+    bottom: 0px;
+}
+
+.bottom-nav a.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.wallet-container {
+    display: flex;
+    align-items: center; /* Центрирование содержимого по вертикали */
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.wallet-button {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    margin-left: 5px;
+}
+
+.leaderboardContainer {
+    margin-top: 70px;
+    margin-bottom: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex: 1;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-card {
+    margin-top: 0;
+    margin-bottom: 5px;
+    background: linear-gradient(135deg, #4f62d0, #8e44ad);
+    padding: 10px;
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-card h2 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.user-card p {
+    font-size: 1em;
+    margin: 0;
+    color: lightgray;
+}
+
+.user-card + .user-card {
+    margin-top: 0; /* Убираем верхний отступ между соседними карточками */
+}
+
+.fixed-user-card {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 50px;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 15, 0.9);
+    width: 100%;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.9); /* Тонкая граница */
+}
+
+.fixed-user-card h2 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.fixed-user-card p {
+    font-size: 1em;
+    margin: 0;
+    color: lightgray;
+}
+
+.coming-soon {
+    color: white;
+    margin-top: 170px;
+    width: 100%;
+    display: flex;               /* Используем Flexbox для центрирования */
+    justify-content: center;     /* Центрирование по горизонтали */
+    align-items: center;
+}
+
+.coming-soon a {
+    font-size: 1.5em;
+    text-align: center;
+    color: gray;
+}
+
+.hidden {
+    display: none;
+}

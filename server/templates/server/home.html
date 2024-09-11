@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advertisement List</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+
+    <script>
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+        tg_id = Telegram.WebApp.initDataUnsafe.user.id;
+
+        const queryString = `tg_id=${tg_id}`;
+        window.location.href = `show_offers?${queryString}`;
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{% block title %}My App{% endblock %}</title>
+<!--  <link href="https://db.onlinewebfonts.com/c/7cc6719bd5f0310be3150ba33418e72e?family=Comic+Sans+MS" rel="stylesheet">-->
+<!--  <link href="https://db.onlinewebfonts.com/c/305b37d49e1c22f4a304a96fc904e1ef?family=Palatino+Sans+Informal+LT+W04Md" rel="stylesheet">-->
+  <link href="{% static 'server/css/styles.css' %}" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <div class="info-bar" id="info-bar">
+    <div style="display: flex; flex-direction: column; margin-left: 15px;">
+      <a id="ton_balance">{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
+      <a>{{ current_user.ton_balance }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></a>
+    </div>
+    <div id="walletContainer" class="wallet-container">
+      <button id="connectWallet" class="wallet-button"></button>
+    </div>
+  </div>
+  {% block content %}{% endblock %}
+
+  <div class="coming-soon" id="comingSoon">
+    <a>Coming soon</a>
+  </div>
+</div>
+
+<!-- Bottom navigation bar -->
+<div class="bottom-nav">
+  <a href="#" id="offersTab" class="active">Offers</a>
+  <a href="#" id="leadTab">Leaderboard</a>
+  <a href="#" id="friendsTab">Friends</a>
+</div>
+
+<script src="{% static 'server/js/main.js' %}">
+  init();
+</script>
+</body>
+</html>

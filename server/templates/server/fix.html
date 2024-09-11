@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixed Header and Footer with Scrollable Content</title>
+    <style>
+        html, body {
+          height: 100%;
+          margin: 0;
+          }
+
+          .container {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          }
+
+          .header, .footer {
+          background: #ccc;
+          padding: 10px;
+          text-align: center;
+          flex-shrink: 0;
+          }
+
+          .header {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          z-index: 1000;
+          }
+
+          .footer {
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+          z-index: 1000;
+          }
+
+          .content {
+          flex: 1;
+          margin-top: 0px; /* Высота шапки */
+          margin-bottom: 0px; /* Высота подвала */
+          overflow-x: hidden;
+          overflow-y: auto;
+          padding: 10px;
+          }
+
+          .table-container {
+          /* Добавляем отступ, чтобы содержимое не прилипало к краям */
+          padding: 10px;
+          }
+
+          /* Пример стилей для таблицы */
+          table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 10px;
+          }
+
+          th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+          }
+
+          thead {
+          background: #f4f4f4;
+          }
+
+        .adContainer {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        overflow-x: hidden;
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .ad-card {
+        background: linear-gradient(135deg, #4f62d0, #8e44ad);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .ad-card h2 {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .ad-card p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+
+    .ad-card .btn {
+        background-color: #ffffff;
+        color: #4f62d0;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .ad-card .btn:hover {
+        background-color: #6359ff;
+        color: #ffffff;
+    }
+
+    .info-box {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 0.9em;
+        text-align: right;
+    }
+
+    .info-box img {
+        vertical-align: middle;
+        margin-left: 5px;
+        width: 20px;
+        height: 20px;
+    }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <header class="header">Header</header>
+    <main class="content">
+        <div class="table-container">
+            <div class="adContainer" id="adContainer">
+                {% for offer in offers %}
+                <div class="ad-card" id="adCard{{forloop.counter}}">
+                    <div class="info-box">
+                        <div class="info-line">{{ offer.reward }}
+                            <img src="{% static 'ton.png' %}" alt="TON Icon">
+                        </div>
+                    </div>
+                    <h2>{{ offer.name }}</h2>
+                    <p>{{ offer.description }}</p>
+                    <a href="{{offer.link}}" class="btn" id="subscribeButton{{forloop.counter}}">Subscribe</a>
+                </div>
+
+                <script>
+                    document.getElementById('subscribeButton{{forloop.counter}}').addEventListener('click', function() {
+                        Telegram.WebApp.expand();
+                        var link = document.getElementById('subscribeButton{{forloop.counter}}');
+                        if (link.innerHTML === 'Subscribe') {
+                            link.innerHTML = 'Verify';
+                        } else if (link.innerHTML === 'Verify') {
+                            fetch('/check_subscription/', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRFToken': '{% csrf_token %}',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    pk: '{{ offer.pk }}',
+                                    tg_id: '{{ tg_id }}'
+                                })
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success' && data.is_subscribed) {
+                                    var div = document.getElementById('adCard{{forloop.counter}}');
+                                    div.remove();
+                                    var devEl = document.querySelector('.info-bar');
+                                    devEl.innerHTML = 'Balance: ' + data.balance + ' <img src="{% static 'ton.png' %}" alt="TON Icon">';
+                                } else {
+                                    link.innerHTML = 'Subscribe';
+                                    link.href = '{{ offer.link }}';
+                                }
+                            });
+                            link.removeAttribute('href');
+                        }
+                    });
+                </script>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+    <footer class="footer">Footer</footer>
+</div>
+</body>
+</html>
