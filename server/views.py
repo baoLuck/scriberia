@@ -6,7 +6,8 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
-from django.db.models import Q
+from django.db.models import Q, Window, F
+from django.db.models.functions import RowNumber
 
 
 from .bot import BOT_TOKEN

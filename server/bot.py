@@ -25,7 +25,7 @@ Start earning TON now! Discover new channels, learn a lot of new and interesting
 logging.basicConfig(level=logging.INFO)
 
 BOT_TOKEN = '7241869710:AAG3HyzczGxHwxQmetXRKvjMWo9wyNqqyr0'
-URL = 'https://young-paws-tap.loca.lt'
+URL = 'https://slick-ways-switch.loca.lt'
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()

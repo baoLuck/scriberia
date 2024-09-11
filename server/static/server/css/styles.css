@@ -10,6 +10,7 @@ body {
     overflow: hidden;
     flex-direction: column;
     box-sizing: border-box;
+    font-weight: bold;
 /*    font-family: "Palatino Sans Informal LT W04Md";
     font-family: "Comic Sans MS";*/
 }
@@ -57,7 +58,6 @@ footer {
     padding: 10px;
     color: white;
     border-radius: 8px;
-    font-weight: bold;
     box-sizing: border-box;
     z-index: 1000;
 }
@@ -92,7 +92,6 @@ footer {
 
 .ad-card {
     background: linear-gradient(to right, #1a1a1a, #333333, #666666, #999999, #b3b3b3, #d9d9d9);
-
     margin-bottom: 20px;
     border-radius: 12px;
     color: white;
@@ -112,6 +111,7 @@ footer {
     font-size: 1em;
     margin-bottom: 30px;
     padding-left: 20px;
+    font-weight: normal;
 }
 
 .ad-card .btn {
@@ -121,7 +121,6 @@ footer {
     border: none;
     border-radius: 5px;
     text-decoration: none;
-    font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
     margin-bottom: 15px;
     margin-left: 15px;
@@ -143,7 +142,6 @@ footer {
     text-align: center;
     display: flex;
     flex-direction: column;
-    font-weight: bold;
     align-items: center; /* Вертикальное выравнивание содержимого */
     justify-content: center; /* Центрирование содержимого по горизонтали */
 }
@@ -161,7 +159,7 @@ footer {
 }
 
 .bottom-nav {
-    height: 50px;
+    height: 60px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -174,6 +172,7 @@ footer {
     border-radius: 10px;
     z-index: 1000;
     margin-bottom: 20px;
+    font-weight: normal;
 }
 
 .bottom-nav a {
@@ -217,7 +216,7 @@ footer {
 }
 
 .leaderboardContainer {
-    margin-top: 70px;
+    margin-top: 80px;
     margin-bottom: 100px;
     flex: 1;
     box-sizing: border-box;
@@ -257,7 +256,7 @@ footer {
     position: fixed;
     bottom: 0;
     left: 0;
-    margin-bottom: 70px;
+    margin-bottom: 80px;
     border-radius: 12px;
     background-color: rgba(0, 0, 15, 0.9);
     width: 100%;
