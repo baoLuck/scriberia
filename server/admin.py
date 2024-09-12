@@ -4,7 +4,7 @@ from server.models import Offer, TGUser, DoneOffersByUser
 
 
 class OffersAdminPanel(admin.ModelAdmin):
-    list_display = ('id', 'name', 'description', 'reward', 'link', 'available')
+    list_display = ('id', 'name', 'description', 'ton_reward', 'scribes_reward', 'link', 'available')
     search_fields = ('name',)
     list_editable = ('available', 'link')
 

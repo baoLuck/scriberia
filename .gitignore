@@ -1,2 +1,4 @@
 server/__pycache__/
 subs_server/__pycache__/
+.venv
+.idea

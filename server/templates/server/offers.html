@@ -7,7 +7,8 @@
   {% for offer in offers %}
   <div class="ad-card" id="adCard{{ forloop.counter }}">
     <div class="info-box">
-      <div class="info-line">{{ offer.reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
+      <div class="info-line">{{ offer.ton_reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
+      <div class="info-line">{{ offer.scribes_reward }} S</div>
     </div>
     <h2>{{ offer.name }}</h2>
     <p>{{ offer.description }}</p>
@@ -38,11 +39,13 @@
                     var div = document.getElementById('adCard{{forloop.counter}}');
                     div.remove();
                     var devEl = document.getElementById('ton_balance');
-                    devEl.innerHTML = data.balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
+                    devEl.innerHTML = data.ton_balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
+                    var devEl = document.getElementById('scribe_balance');
+                    devEl.innerHTML = data.scribe_balance + ' S';
                     var bal = document.getElementById('currentUserBalance');
-                    bal.innerHTML = data.balance;
+                    bal.innerHTML = data.ton_balance;
                     var bal1 = document.getElementById('{{ current_user.tg_id }}');
-                    bal1.innerHTML = data.balance;
+                    bal1.innerHTML = data.ton_balance;
                 } else {
                     link.innerHTML = 'Subscribe';
                     link.href = '{{ offer.link }}';
