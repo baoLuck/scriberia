@@ -5,7 +5,7 @@ class Offer(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     reward = models.DecimalField(default=0.1, decimal_places=4, max_digits=10)
-    link = models.CharField(max_length=100, default='https://t.me/yakrutkaneki')
+    link = models.CharField(max_length=100, default="https://t.me/yakrutkaneki")
     available = models.BooleanField(default=True)
     creation_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -22,7 +22,12 @@ class TGUser(models.Model):
     scribe_balance = models.IntegerField(default=0)
     creation_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
-    done_tasks = models.ManyToManyField('Offer', blank=True, related_name='users', through='DoneOffersByUser')
+    done_tasks = models.ManyToManyField(
+        "Offer",
+        blank=True,
+        related_name="users",
+        through="DoneOffersByUser",
+    )
 
     def __str__(self):
         return self.tg_username
@@ -34,5 +39,3 @@ class DoneOffersByUser(models.Model):
 
     def __str__(self):
         return str(self.pk)
-
-

@@ -1,0 +1,69 @@
+[tool.poetry]
+authors = ["Your Name <you@example.com>"]
+description = ""
+name = "scriberia"
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+aiogram = "^3.13.0"
+asgiref = "^3.8.1"
+django = "^5.1.1"
+httpx = "^0.27.2"
+orjson = "^3.10.7"
+python = "^3.12"
+uvicorn = "^0.30.6"
+
+[tool.poetry.group.dev.dependencies]
+deptry = "^0.20.0"
+pre-commit = "^3.8.0"
+toml-sort = "^0.23.1"
+
+[tool.mypy]
+check_untyped_defs = true
+disable_error_code = [
+  "arg-type",
+  "assignment",
+  "call-arg",
+  "import",
+  "no-redef",
+  "return",
+  "return-value",
+  "var-annotated"
+]
+exclude = 'tests'
+files = ["server", "subs_server"]
+follow_imports = "skip"
+ignore_missing_imports = true
+python_version = 3.12
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+ignore = [
+  "N802", # Function name should be lowercase. Stick to gRPC generation tools -> use PascalCase methods.
+  "N805" # First argument of a method should be named `self`. Conflict with Pydantic validators.
+]
+select = [
+  "E", # Enable error codes checks
+  "F", # Enable checks for source files errors
+  "I", # Enable Isort related checks
+  "N", # Enable pep8-naming conventions
+  "PIE", # Enable `specific` checks: https://docs.astral.sh/ruff/rules/#flake8-pyi-pyi
+  "RET", # Enable `return` checks
+  "RSE", # Enable `unnecessary parentheses on raised exception` check
+  "T20", # Enable `print found` checks
+  "W" # Enable linter warnings
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.deptry.per_rule_ignores]
+DEP002 = ["asgiref", "uvicorn"]
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
