@@ -2,6 +2,7 @@ import logging
 
 import httpx
 import orjson
+from asgiref.sync import sync_to_async
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import Q
 from django.http import JsonResponse
@@ -66,13 +67,15 @@ async def check_subscription(request: ASGIRequest):
 
 async def show_offers(request: ASGIRequest):
     if request.method == "GET":
-        tg_user = TGUser.objects.get(tg_id=request.GET.get("tg_id"))
+        tg_user = await TGUser.objects.aget(tg_id=request.GET.get("tg_id"))
 
         done_offers = DoneOffersByUser.objects.filter(tg_user_id=tg_user.pk).values_list("offer_id", flat=True)
+
         available_offers = Offer.objects.filter(available=True).exclude(Q(id__in=done_offers))
+
         leaderboard_users = TGUser.objects.order_by("-ton_balance")[:50]
 
-        return render(
+        return await sync_to_async(render)(
             request,
             "server/offers.html",
             {
