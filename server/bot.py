@@ -25,7 +25,7 @@ Start earning TON now! Discover new channels, learn a lot of new and interesting
 logging.basicConfig(level=logging.INFO)
 
 BOT_TOKEN = '7241869710:AAG3HyzczGxHwxQmetXRKvjMWo9wyNqqyr0'
-URL = 'https://quick-places-grin.loca.lt'
+URL = 'https://large-masks-shave.loca.lt'
 
 bot = Bot(BOT_TOKEN)
 dp = Dispatcher()

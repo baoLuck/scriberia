@@ -51,6 +51,7 @@ def check_subscription(request):
                 done_offer.save()
                 tg_user.ton_balance += offer.ton_reward
                 tg_user.scribe_balance += offer.scribes_reward
+                tg_user.done_tasks_count += 1
                 tg_user.save()
                 offer.current_subscriptions += 1
                 if offer.current_subscriptions >= offer.max_subscriptions:
@@ -76,8 +77,10 @@ def show_offers(request):
                 expression=RowNumber(),
                 order_by=F('ton_balance').desc()
             )
-        )
+        ).filter(pk=tg_user.pk)
         print(sorted_records)
+        for x in sorted_records:
+            print(x.row_number)
         return render(request, 'server/offers.html',
                       {'offers': available, 'current_user': tg_user, 'leaderboard_users': leaderboard_users})
 

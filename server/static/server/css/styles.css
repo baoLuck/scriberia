@@ -45,6 +45,7 @@ footer {
     bottom: 0px;
     left: 0;
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 .info-bar {
@@ -85,7 +86,7 @@ footer {
 
 .adContainer {
     margin-top: 60px;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     padding: 10px;
     overflow: scroll;
 }
@@ -95,9 +96,20 @@ footer {
     margin-bottom: 20px;
     border-radius: 12px;
     color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
     padding-bottom: 25px;
+    transform: scale(1.0);
+}
+
+/*.ad-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transform: scale(0.98);
+    background: linear-gradient(to right, #0d0d0d, #2b2b2b, #4d4d4d, #777777, #a3a3a3);
+}*/
+
+.transform {
+    transform: scale(0.98);
+    background: linear-gradient(to right, #0d0d0d, #2b2b2b, #4d4d4d, #777777, #a3a3a3);
 }
 
 .ad-card h2 {
@@ -117,13 +129,13 @@ footer {
 .ad-card .btn {
     background-color: rgba(0, 0, 0, 0.3);
     color: #ffffff;
-    padding: 10px 20px;
-    border: none;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-right: 20px;
     border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-    margin-bottom: 15px;
-    margin-left: 15px;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }
 
 /*.ad-card .btn:hover {
@@ -223,13 +235,19 @@ footer {
     display: flex;
     flex-direction: column;
     overflow: scroll;
-    padding: 10px;
+}
+
+.leaders-list {
+    margin-top: 40px;
+    margin-bottom: 30px;
 }
 
 .user-card {
     margin-top: 0;
-    margin-bottom: 5px;
-    background: linear-gradient(to right, #1a1a1a, #333333, #666666, #999999, #b3b3b3, #d9d9d9);
+    margin-left: 10px;
+    margin-right: 15px;
+    margin-bottom: 5px;/*
+    background: linear-gradient(to right, #1a1a1a, #333333, #666666, #999999, #b3b3b3, #d9d9d9);*/
     padding: 10px;
     border-radius: 12px;
     color: white;
@@ -282,6 +300,39 @@ footer {
     color: lightgray;
 }
 
+.leaders-nav {
+    height: 30px;
+    position: fixed;
+    margin-top: 0;
+    background: black;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    border-radius: 10px;
+    z-index: 1000;
+    font-weight: normal;
+}
+
+.leaders-nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 31.67%;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 10px;
+}
+
+.leaders-nav a.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
 .coming-soon {
     color: white;
     margin-top: 170px;
@@ -299,4 +350,53 @@ footer {
 
 .hidden {
     display: none;
+}
+
+.loader-text {
+}
+
+.loader-text::after {
+    content: '...';
+    animation: dots 1s steps(3, end) infinite;
+}
+
+@keyframes dots {
+    0% {
+        content: '';
+    }
+    33% {
+        content: '.';
+    }
+    66% {
+        content: '..';
+    }
+    100% {
+        content: '...';
+    }
+}
+
+.popup {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    white-space: nowrap;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    opacity: 1;
+    animation: fadeOut 3s forwards;
+    z-index: 1000;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

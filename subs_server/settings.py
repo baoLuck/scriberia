@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-s!jx8fs6tkmb^##mmt%4+3(i5-zrw(ydg(=ybhq+9!4+25)r#e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'quick-places-grin.loca.lt']
+ALLOWED_HOSTS = ['127.0.0.1', 'large-masks-shave.loca.lt']
 
-CSRF_TRUSTED_ORIGINS = ['https://quick-places-grin.loca.lt']
+CSRF_TRUSTED_ORIGINS = ['https://large-masks-shave.loca.lt']
 
 # Application definition
 
