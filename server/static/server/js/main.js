@@ -1,6 +1,6 @@
 Telegram.WebApp.expand();
 const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-  manifestUrl: 'https://slick-ways-switch.loca.lt/static/tonconnect-manifest.json',
+  manifestUrl: 'https://tidy-paws-clap.loca.lt/static/tonconnect-manifest.json',
   buttonRootId: 'connectWallet'
 });
 showOffers();

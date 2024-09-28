@@ -1,21 +1,25 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = "django-insecure-s!jx8fs6tkmb^##mmt%4+3(i5-zrw(ydg(=ybhq+9!4+25)r#e"
+SECRET_KEY = os.environ.get("SCR_SECRET_KEY", "")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "slick-ways-switch.local.lt"]
+SERVER_URL = os.environ.get("SERVER_URL", "")
+TG_BOT_API_TOKEN = os.environ.get("TG_BOT_API_TOKEN", "")
 
-CSRF_TRUSTED_ORIGINS = ["https://slick-ways-switch.local.lt"]
+ALLOWED_HOSTS = ["127.0.0.1", SERVER_URL.split("://")[-1]]
 
-MY_APPS = [
+CSRF_TRUSTED_ORIGINS = [SERVER_URL]
+
+PROJECT_APPS = [
     "server.apps.ServerConfig",
 ]
 
-DEFAULT_APPS = [
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -24,7 +28,7 @@ DEFAULT_APPS = [
     "django.contrib.staticfiles",
 ]
 
-INSTALLED_APPS = MY_APPS + DEFAULT_APPS
+INSTALLED_APPS = PROJECT_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

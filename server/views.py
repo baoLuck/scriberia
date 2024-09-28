@@ -1,17 +1,22 @@
 import logging
+from typing import Any
 
 import httpx
 import orjson
+from adrf.views import APIView
 from asgiref.sync import sync_to_async
+from django.conf import settings
 from django.core.handlers.asgi import ASGIRequest
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
+from rest_framework import status
+from rest_framework.response import Response
 
-from server.bot import BOT_TOKEN
 from server.models import DoneOffersByUser, Offer, TGUser
+from server.serializers import TGUserCreateOrEditSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +30,28 @@ class OffersPage(ListView):
         return Offer.objects.filter(available=True)
 
 
+class TGUserView(APIView):
+    async def put(self, request):
+        serializer = TGUserCreateOrEditSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        data: dict[str, Any] = await serializer.adata
+        tg_id: int = data.pop("tg_id")
+
+        tg_user, _created = await TGUser.objects.aupdate_or_create(tg_id=tg_id, defaults=data)
+
+        if _created:
+            return Response(
+                data={"message": "User created successfully.", "user_id": tg_id},
+                status=status.HTTP_201_CREATED,
+            )
+
+        return Response(
+            data={"message": "User updated successfully.", "user_id": tg_id},
+            status=status.HTTP_200_OK,
+        )
+
+
 @csrf_exempt
 async def check_subscription(request: ASGIRequest):
     if request.method == "POST":
@@ -36,7 +63,7 @@ async def check_subscription(request: ASGIRequest):
 
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                url=f"https://api.telegram.org/bot{BOT_TOKEN}/getChatMember",
+                url=f"https://api.telegram.org/bot{settings.TG_BOT_API_TOKEN}/getChatMember",
                 params={"chat_id": "@" + offer.link.rpartition("/")[-1], "user_id": tg_id},
             )
 
