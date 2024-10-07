@@ -3,70 +3,114 @@
 
 {% block content %}
 
+
+
 <div class="adContainer" id="adContainer">
   {% for offer in offers %}
-  <div class="ad-card" id="adCard{{ forloop.counter }}">
+  <div id="successPopup{{ forloop.counter }}" class="popup hidden">✅ Success</div>
+  <div id="failurePopup{{ forloop.counter }}" class="popup hidden">❌ Subscription not completed</div>
+  <div class="ad-card" id="adCard{{ forloop.counter }}" onclick="window.location='{{ offer.link }}';">
     <div class="info-box">
-      <div class="info-line">{{ offer.reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
+      <div class="info-line">{{ offer.ton_reward }} <img src="{% static 'server/ton.png' %}" alt="TON Icon"></div>
+      <div class="info-line">{{ offer.scribes_reward }} S</div>
     </div>
     <h2>{{ offer.name }}</h2>
     <p>{{ offer.description }}</p>
-    <a href="{{ offer.link }}" class="btn" id="subscribeButton{{ forloop.counter }}">Subscribe</a>
+    <a class="btn substrate" id="checkButton{{ forloop.counter }}" onclick="event.stopPropagation();">Check</a>
   </div>
 
   <script>
-    document.getElementById('subscribeButton{{forloop.counter}}').addEventListener('click', function() {
+
+    document.getElementById('adCard{{forloop.counter}}').addEventListener('touchend', () => onTouchEnded('{{forloop.counter}}'));
+
+    document.getElementById('adCard{{forloop.counter}}').addEventListener('pointerdown', function(event) {
+            if (!event.target.closest('.btn')) {
+                document.getElementById('adCard{{forloop.counter}}').classList.add('transform');
+            }
+        });
+
+    document.getElementById('checkButton{{forloop.counter}}').addEventListener('click', function() {
         Telegram.WebApp.expand();
-        var link = document.getElementById('subscribeButton{{forloop.counter}}');
-        if (link.innerHTML === 'Subscribe') {
-            link.innerHTML = 'Verify';
-        } else if (link.innerHTML === 'Verify') {
-            fetch('/check_subscription/', {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': '{% csrf_token %}',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    pk: '{{ offer.pk }}',
-                    tg_id: '{{ current_user.tg_id }}'
-                })
+        this.classList.add('loader-text');
+        fetch('/check_subscription/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{% csrf_token %}',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                pk: '{{ offer.pk }}',
+                tg_id: '{{ current_user.tg_id }}'
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success' && data.is_subscribed) {
-                    var div = document.getElementById('adCard{{forloop.counter}}');
-                    div.remove();
-                    var devEl = document.getElementById('ton_balance');
-                    devEl.innerHTML = data.balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
-                    var bal = document.getElementById('currentUserBalance');
-                    bal.innerHTML = data.balance;
-                    var bal1 = document.getElementById('{{ current_user.tg_id }}');
-                    bal1.innerHTML = data.balance;
-                } else {
-                    link.innerHTML = 'Subscribe';
-                    link.href = '{{ offer.link }}';
-                }
-            });
-            link.removeAttribute('href');
-        }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.is_subscribed) {
+                var div = document.getElementById('adCard{{forloop.counter}}');
+                div.remove();
+                var devEl = document.getElementById('ton_balance');
+                devEl.innerHTML = data.ton_balance + ' <img src="{% static 'server/ton.png' %}" alt="TON Icon">';
+                var devEl = document.getElementById('scribe_balance');
+                devEl.innerHTML = data.scribe_balance + ' S';
+                var bal = document.getElementById('currentUserBalance');
+                bal.innerHTML = data.ton_balance;
+                var bal1 = document.getElementById('{{ current_user.tg_id }}');
+                bal1.innerHTML = data.ton_balance;
+                const popup = document.getElementById('successPopup{{ forloop.counter }}');
+                popup.style.display = 'block';
+
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 3000);
+            } else {
+                this.classList.remove('loader-text');
+                const popup = document.getElementById('failurePopup{{ forloop.counter }}');
+                popup.style.display = 'block';
+
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 3000);
+            }
+        });
     });
   </script>
   {% endfor %}
 </div>
 
 <div class="leaderboardContainer" id="leaderboardContainer">
-  {% for user in leaderboard_users %}
-  <div class="user-card">
-    <h2>{{forloop.counter}}. {{ user.tg_username }}</h2>
-    <p style="color: black; font-weight: bold;" id="{{ user.tg_id }}">{{ user.ton_balance }}</p>
+  <div class="leaders-nav">
+    <a href="#" id="yourStats" class="active">
+      <span>You</span>
+    </a>
+    <a href="#" id="leaders">
+      <span>Leaders</span>
+    </a>
+    <a href="#" id="summary">
+      <span>Summary</span>
+    </a>
   </div>
-  {% endfor %}
-</div>
 
-<div class="fixed-user-card" id="currentUser">
-  <h2>{{ current_user.tg_username }}</h2>
-  <p id="currentUserBalance">{{ current_user.ton_balance }}</p>
+  <div class="coming-soon" id="your-stats">
+    <a>Coming soon</a>
+  </div>
+
+  <div class="leaders-list" id="leaders-list">
+    {% for user in leaderboard_users %}
+    <div class="user-card">
+      <h2>#{{forloop.counter}} {{ user.tg_username }}</h2>
+      <p id="{{ user.tg_id }}">{{ user.ton_balance }}</p>
+    </div>
+    {% endfor %}
+    <div class="fixed-user-card" id="currentUser">
+      <h2>{{ current_user.tg_username }}</h2>
+      <p id="currentUserBalance">{{ current_user.ton_balance }}</p>
+    </div>
+  </div>
+
+  <div class="coming-soon" id="summary-stats">
+    <a>Coming soon</a>
+  </div>
+
 </div>
 
 {% endblock content %}

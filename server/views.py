@@ -77,13 +77,21 @@ async def check_subscription(request: ASGIRequest):
                 await DoneOffersByUser.objects.acreate(offer_id=offer.pk, tg_user_id=tg_user.pk)
 
                 tg_user.ton_balance += offer.reward
-                await tg_user.asave(update_fields=("ton_balance",))
+                tg_user.scribe_balance += offer.scribes_reward
+                tg_user.done_tasks_count += 1
+                await tg_user.asave(update_fields=("ton_balance", "scribe_balance", "done_tasks_count"))
+
+                offer.current_subscriptions += 1
+                if offer.current_subscriptions >= offer.max_subscriptions:
+                    offer.available = False
+                await offer.asave(update_fields=("current_subscriptions", "available"))
 
                 return JsonResponse(
                     {
                         "status": "success",
                         "is_subscribed": True,
-                        "balance": tg_user.ton_balance,
+                        "ton_balance": tg_user.ton_balance,
+                        "scribe_balance": tg_user.scribe_balance,
                     },
                 )
 
@@ -101,6 +109,16 @@ async def show_offers(request: ASGIRequest):
         available_offers = Offer.objects.filter(available=True).exclude(Q(id__in=done_offers))
 
         leaderboard_users = TGUser.objects.order_by("-ton_balance")[:50]
+
+        # sorted_records = TGUser.objects.annotate(
+        #     row_number=Window(
+        #         expression=RowNumber(),
+        #         order_by=F('ton_balance').desc()
+        #     )
+        # ).filter(pk=tg_user.pk)
+        # print(sorted_records)
+        # for x in sorted_records:
+        #     print(x.row_number)
 
         return await sync_to_async(render)(
             request,
